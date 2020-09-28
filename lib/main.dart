@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:js/js.dart';
-import 'package:paypal_test/js_interop.dart';
+import 'package:js/js_util.dart';
 
 void _someDartFunction() {
   print('Hello from Dart!');
@@ -35,11 +35,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    // JavaScript code may now call `functionName()` or `window.functionName()`.
-    functionName();
-    jsFunctionName = allowInterop(_someDartFunction);
-    functionName();
     super.initState();
+    setProperty(window, 'callDartFunc', allowInterop(_someDartFunction));
 
     final IFrameElement _iframeElement = IFrameElement();
     _iframeElement.height = '500';
@@ -48,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // _iframeElement.style.border = 'none';
     ui.platformViewRegistry.registerViewFactory(
       'iframeElement',
-        (int viewId) => _iframeElement,
+      (int viewId) => _iframeElement,
     );
   }
 

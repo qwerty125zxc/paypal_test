@@ -31,7 +31,7 @@ paypal.Button.render({
     onAuthorize: function(data, actions) {
       return actions.payment.execute().then(function() {
         // call some dart function
-        window.functionName();
+        window.parent.callDartFunc();
       });
     }
   }, '#paypal-button');
